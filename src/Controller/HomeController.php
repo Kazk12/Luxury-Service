@@ -22,10 +22,40 @@ final class HomeController extends AbstractController
         return $this->render('jobs/index.html.twig');
     }
 
-    #[Route('/jobsShow',  name: 'jobs_index')]
+    #[Route('/jobsShow',  name: 'jobs_show')]
     public function jobsShow(): Response
     {
         return $this->render('jobs/show.html.twig');
+    }
+
+    #[Route('/compagny',  name: 'compagny_index')]
+    public function compagny(): Response
+    {
+        return $this->render('/compagny.html.twig');
+    }
+
+    #[Route('/contact',  name: 'contact_index')]
+    public function contact(): Response
+    {
+        return $this->render('/contact.html.twig');
+    }
+
+    #[Route('/login',  name: 'login')]
+    public function login(): Response
+    {
+        return $this->render('auth/login.html.twig');
+    }
+
+    #[Route('/register',  name: 'register')]
+    public function register(): Response
+    {
+        return $this->render('auth/register.html.twig');
+    }
+
+    #[Route('/profile',  name: 'profile')]
+    public function profile(): Response
+    {
+        return $this->render('auth/profile.html.twig');
     }
 
 }
