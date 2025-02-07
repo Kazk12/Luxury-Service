@@ -53,6 +53,7 @@ final class CandidateController extends AbstractController
 
             return $this->render('profile/profile.html.twig', [
                 'form' => $form,
+                'candidate' => $candidat,
             ]);
         }
     }

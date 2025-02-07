@@ -3,9 +3,15 @@
 namespace App\Entity;
 
 use App\Repository\CandidateRepository;
+use DateTimeImmutable;
+use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
-
+use Symfony\Component\HttpFoundation\File\File;
+use Symfony\Component\Validator\Constraints as Assert;
+use Vich\UploaderBundle\Mapping\Annotation as Vich;
+use Doctrine\Common\Collections\Collection;
 #[ORM\Entity(repositoryClass: CandidateRepository::class)]
+#[Vich\Uploadable]
 class Candidate
 {
     #[ORM\Id]
@@ -40,6 +46,41 @@ class Candidate
 
     #[ORM\ManyToOne(inversedBy: 'candidates')]
     private ?Gender $gender = null;
+
+    #[ORM\ManyToOne(inversedBy: 'candidates')]
+    private ?Experience $experience = null;
+
+    #[ORM\ManyToOne(inversedBy: 'candidates')]
+    private ?JobCategory $jobCategory = null;
+
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $profilPicture = null;
+
+    #[Vich\UploadableField(mapping: 'profilePicture', fileNameProperty: 'profilPicture')]
+    #[Assert\Image()]
+    private ?File $thumbnailFile = null;
+
+    #[ORM\Column(nullable: true)]
+    private ?\DateTimeImmutable $updatedAt = null;
+
+    #[ORM\Column(type: Types::TEXT, nullable: true)]
+    private ?string $shortDescription = null;
+
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $passport = null;
+
+    #[Vich\UploadableField(mapping: 'passport', fileNameProperty: 'passport')]
+    #[Assert\Image()]
+    private ?File $passportFile = null;
+
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $cv = null;
+
+    #[Vich\UploadableField(mapping: 'cv', fileNameProperty: 'cv')]
+    #[Assert\Image()]
+    private ?File $cvFile = null;
+
+
 
     public function getId(): ?int
     {
@@ -152,5 +193,156 @@ class Candidate
         $this->gender = $gender;
 
         return $this;
+    }
+
+    public function getExperience(): ?Experience
+    {
+        return $this->experience;
+    }
+
+    public function setExperience(?Experience $experience): static
+    {
+        $this->experience = $experience;
+
+        return $this;
+    }
+
+    public function getJobCategory(): ?JobCategory
+    {
+        return $this->jobCategory;
+    }
+
+    public function setJobCategory(?JobCategory $jobCategory): static
+    {
+        $this->jobCategory = $jobCategory;
+
+        return $this;
+    }
+
+    public function getProfilPicture(): ?string
+    {
+        return $this->profilPicture;
+    }
+
+    public function setProfilPicture(?string $profilPicture): static
+    {
+        $this->profilPicture = $profilPicture;
+
+        return $this;
+    }
+
+    /**
+     * Get the value of thumbnailFile
+     */ 
+    public function getThumbnailFile()
+    {
+        return $this->thumbnailFile;
+    }
+
+    /**
+     * Set the value of thumbnailFile
+     *
+     * @return  self
+     */ 
+    public function setThumbnailFile($thumbnailFile) : void
+    {
+        $this->thumbnailFile = $thumbnailFile;
+
+        if(null !== $thumbnailFile){
+            $this->updatedAt = new DateTimeImmutable();
+        }
+ 
+    }
+
+    public function getUpdatedAt(): ?\DateTimeImmutable
+    {
+        return $this->updatedAt;
+    }
+
+    public function setUpdatedAt(?\DateTimeImmutable $updatedAt): static
+    {
+        $this->updatedAt = $updatedAt;
+
+        return $this;
+    }
+
+    public function getShortDescription(): ?string
+    {
+        return $this->shortDescription;
+    }
+
+    public function setShortDescription(?string $shortDescription): static
+    {
+        $this->shortDescription = $shortDescription;
+
+        return $this;
+    }
+
+    public function getPassport(): ?string
+    {
+        return $this->passport;
+    }
+
+    public function setPassport(?string $passport): static
+    {
+        $this->passport = $passport;
+
+        return $this;
+    }
+
+    public function getCv(): ?string
+    {
+        return $this->cv;
+    }
+
+    public function setCv(?string $cv): static
+    {
+        $this->cv = $cv;
+
+        return $this;
+    }
+
+    /**
+     * Get the value of passportFile
+     */ 
+    public function getPassportFile()
+    {
+        return $this->passportFile;
+    }
+
+    /**
+     * Set the value of passportFile
+     *
+     * @return  self
+     */ 
+    public function setPassportFile($passportFile) : void
+    {
+        $this->passportFile = $passportFile;
+
+        if(null !== $passportFile){
+            $this->updatedAt = new DateTimeImmutable();
+        }
+    }
+
+    /**
+     * Get the value of cvFile
+     */ 
+    public function getCvFile()
+    {
+        return $this->cvFile;
+    }
+
+    /**
+     * Set the value of cvFile
+     *
+     * @return  self
+     */ 
+    public function setCvFile($cvFile) : void
+    {
+        $this->cvFile = $cvFile;
+
+        if(null !== $cvFile){
+            $this->updatedAt = new DateTimeImmutable();
+        }
     }
 }

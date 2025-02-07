@@ -83,13 +83,9 @@
 					{# FORM GENRE #}
 
 					<div class="input-field">
-						<select id="gender" name="gender">
-							<option value="">Choose an option...</option>
-							<option value="male">Male</option>
-							<option value="female" selected="selected">Female</option>
-							<option value="transgender">Transgender</option>
-						</select>
-						<label for="gender" class="active">Gender</label>
+						{{ form_widget(form.gender) }}
+						{{ form_label(form.gender) }}
+						{{ form_errors(form.gender) }}
 					</div>
 				</div>
 
@@ -153,14 +149,21 @@
 							<span>
 								<i class="material-icons">insert_photo</i>
 								Photo</span>
-							<input id="photo" size="20000000" accept=".pdf,.jpg,.doc,.docx,.png,.gif" name="photo" type="file">
+							{# <input id="photo" size="20000000" accept=".pdf,.jpg,.doc,.docx,.png,.gif" name="photo" type="file"> #}
+								{{ form_widget(form.thumbnailFile) }}
+								{{ form_errors(form.thumbnailFile) }}
+
 						</div>
 
 						<div class="existing-file">
-							<a href="#!" target="_blank">
+						
+				
+						
+							<a href="{{ asset('images/profilePicture/' ~ candidate.profilPicture) }}" target="_blank">
 								<i class="material-icons">&#xE24D;</i>
-								profil_picture.jpg</a>
+								  {{ candidate.profilPicture }}</a>
 						</div>
+						
 						<div class="file-path-wrapper">
 							<input class="file-path validate" type="text" placeholder="Upload your ID photo" readonly>
 						</div>
@@ -229,7 +232,9 @@
 								<span>
 									<i class="material-icons">&#xE24D;</i>
 									Passport</span>
-								<input id="passport" size="20000000" accept=".pdf,.jpg,.doc,.docx,.png,.gif" name="passport" type="file">
+									{{ form_widget(form.passportFile) }}
+								{{ form_errors(form.passportFile) }}
+								
 							</div>
 							<div class="existing-file">
 								<a href="#!" target="_blank">
@@ -249,7 +254,9 @@
 								<span>
 									<i class="material-icons">&#xE24D;</i>
 									CV</span>
-								<input id="cv" size="20000000" accept=".pdf,.jpg,.doc,.docx,.png,.gif" name="cv" type="file">
+									{{ form_widget(form.cvFile) }}
+								{{ form_errors(form.cvFile) }}
+								
 							</div>
 
 							<div class="existing-file">
@@ -272,11 +279,9 @@
 						{# FORM JOB SECTOR #}
 
 						<div class="input-field" style="margin-top: 5px;">
-							<select id="job_sector" name="job_sector[]" multiple data-placeholder="Type in or Select job sector you would be interested in.">
-								<option value="">Choose an option...</option>
-								<option value="">job sector</option>
-							</select>
-							<label for="job_sector" class="active">Interest in job sector</label>
+							{{ form_widget(form.jobCategory) }}
+								{{ form_label(form.jobCategory) }}
+								{{ form_errors(form.jobCategory) }}
 						</div>
 					</div>
 					<div
@@ -285,16 +290,9 @@
 						{# FORM EXPERIENCE #}
 
 						<div class="input-field">
-							<select id="experience" name="experience">
-								<option value="">Choose</option>
-								<option value="3m">0 - 6 month</option>
-								<option value="6m">6 month - 1 year</option>
-								<option value="1y">1 - 2 years</option>
-								<option value="2y">2+ years</option>
-								<option value="5y" selected="selected">5+ years</option>
-								<option value="10y">10+ years</option>
-							</select>
-							<label for="experience" class="active">Experience</label>
+							{{ form_widget(form.experience) }}
+								{{ form_label(form.experience) }}
+								{{ form_errors(form.experience) }}
 						</div>
 					</div>
 				</div>
@@ -304,8 +302,10 @@
 					{# FORM DESCRIPTION #}
 
 					<div class="input-field">
-						<textarea class="materialize-textarea" id="description" name="description" cols="50" rows="10"></textarea>
-						<label for="description">Short description for your profile, as well as more personnal informations (e.g. your hobbies/interests ). You can also paste any link you want.</label>
+								{{ form_label(form.shortDescription) }}
+
+						{{ form_widget(form.shortDescription) }}
+								{{ form_errors(form.shortDescription) }}
 					</div>
 				</div>
 			</div>
