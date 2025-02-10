@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use App\Repository\CandidateRepository;
 use DateTimeImmutable;
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\HttpFoundation\File\File;
@@ -79,6 +80,25 @@ class Candidate
     #[Vich\UploadableField(mapping: 'cv', fileNameProperty: 'cv')]
     #[Assert\Image()]
     private ?File $cvFile = null;
+
+    #[ORM\Column]
+    private ?\DateTimeImmutable $createdAt = null;
+
+    #[ORM\Column(type: Types::DATE_IMMUTABLE, nullable: true)]
+    private ?\DateTimeImmutable $dateBirth = null;
+
+    /**
+     * @var Collection<int, Application>
+     */
+    #[ORM\OneToMany(targetEntity: Application::class, mappedBy: 'candidate')]
+    private Collection $applications;
+
+    public function __construct(DateTimeImmutable $createdAt = new DateTimeImmutable(), DateTimeImmutable $updatedAt = new DateTimeImmutable())
+    {
+        $this->createdAt = $createdAt;
+        $this->updatedAt = $updatedAt;
+        $this->applications = new ArrayCollection();
+    }
 
 
 
@@ -344,5 +364,59 @@ class Candidate
         if(null !== $cvFile){
             $this->updatedAt = new DateTimeImmutable();
         }
+    }
+
+    public function getCreatedAt(): ?\DateTimeImmutable
+    {
+        return $this->createdAt;
+    }
+
+    public function setCreatedAt(\DateTimeImmutable $createdAt): static
+    {
+        $this->createdAt = $createdAt;
+
+        return $this;
+    }
+
+    public function getDateBirth(): ?\DateTimeImmutable
+    {
+        return $this->dateBirth;
+    }
+
+    public function setDateBirth(?\DateTimeImmutable $dateBirth): static
+    {
+        $this->dateBirth = $dateBirth;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Application>
+     */
+    public function getApplications(): Collection
+    {
+        return $this->applications;
+    }
+
+    public function addApplication(Application $application): static
+    {
+        if (!$this->applications->contains($application)) {
+            $this->applications->add($application);
+            $application->setCandidate($this);
+        }
+
+        return $this;
+    }
+
+    public function removeApplication(Application $application): static
+    {
+        if ($this->applications->removeElement($application)) {
+            // set the owning side to null (unless already changed)
+            if ($application->getCandidate() === $this) {
+                $application->setCandidate(null);
+            }
+        }
+
+        return $this;
     }
 }

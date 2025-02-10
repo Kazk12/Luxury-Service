@@ -45,14 +45,14 @@ class RegistrationController extends AbstractController
             // encode the plain password
             $user->setPassword($userPasswordHasher->hashPassword($user, $plainPassword));
 
-            $candidat = new Candidate();
+            $candidate = new Candidate();
 
-            $candidat->setUser($user);
+            $candidate->setUser($user);
 
           
 
 
-            $entityManager->persist($candidat);
+            $entityManager->persist($candidate);
             $entityManager->flush();
 
             // generate a signed url and email it to the user

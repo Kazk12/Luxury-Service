@@ -7,12 +7,17 @@ use App\Entity\Candidate;
 use App\Entity\Experience;
 use App\Entity\Gender;
 use App\Entity\JobCategory;
+use DateTimeImmutable;
+use Doctrine\DBAL\Types\DateImmutableType;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
+use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\Form\FormEvent;
+use Symfony\Component\Form\FormEvents;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class CandidateType extends AbstractType
@@ -21,21 +26,22 @@ class CandidateType extends AbstractType
     {
         $builder
             ->add('firstName', TextType::class, [
-                'label' => 'firstName',
+                'label' => 'First name',
+                'required' => false,
                 'attr' => [
-                    'id' => 'last_name',
+                    'id' => 'first_name',
                     'class' => 'form-control'
                 ],
             ])
             ->add('lastName', TextType::class, [
-                'label' => 'lastName',
+                'label' => 'Last name',
                 'attr' => [
                     'id' => 'last_name',
                     'class' => 'form-control'
                 ],
             ])
             ->add('currentLocation', TextType::class, [
-                'label' => 'currentLocation',
+                'label' => 'Current location',
                 'attr' => [
                     'id' => 'current_location',
                     'class' => 'form-control'
@@ -82,7 +88,9 @@ class CandidateType extends AbstractType
                 'label' => "Gender :",
                 'label_attr' => [
                     'class' => 'active',  
-                ]
+                ],
+                'placeholder' => 'Choose an option...',
+                
             ])
 
 
@@ -147,13 +155,15 @@ class CandidateType extends AbstractType
             ])
 
 
-            // ->add('date_naissance', DateTimeType::class, [
-            //     'label' => 'Date_naissance',
-            //     'attr' => [
-            //         'id' => 'birth_date',
-            //         'class' => 'form-control'
-            //     ],
-            // ])
+            ->add('dateBirth', DateType::class, [
+                'label' => 'Birthdate',
+                'attr' => [
+                    'class' => 'form-control',
+                    'id' => 'birth_date',
+                ],
+            ])
+
+            ->addEventListener(FormEvents::POST_SUBMIT, $this->setUpdatedAt(...))
 
 
             ->add('birthPlace', TextType::class, [
@@ -171,5 +181,11 @@ class CandidateType extends AbstractType
         $resolver->setDefaults([
             'data_class' => Candidate::class, // Assure-toi que ça pointe bien vers l'entité Candidat
         ]);
+    }
+
+    private function setUpdatedAt(FormEvent $event) : void
+    {
+        $candidate = $event->getData();
+        $candidate->setUpdatedAt(new DateTimeImmutable());
     }
 }

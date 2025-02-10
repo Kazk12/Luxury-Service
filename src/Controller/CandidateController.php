@@ -49,6 +49,8 @@ final class CandidateController extends AbstractController
                 // $entityManager->persist($candidat);
                 $entityManager->flush();
 
+                
+
             }
 
             return $this->render('profile/profile.html.twig', [

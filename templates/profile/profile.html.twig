@@ -10,7 +10,13 @@
 		select {
 			display: block !important;
 		}
+
+		.tp-caption.boxshadow,
+		.boxshadow {
+			box-shadow: none !important;
+		}
 	</style>
+
 
 {% endblock %}
 
@@ -43,7 +49,7 @@
 					<h4>
 						<img src="{{ asset('img/profile.gif') }}" style="height: 80px; width: 201px;">
 						&nbsp;
-												                            &nbsp; Hooray ! Your profile is complete.
+																								                            &nbsp; Hooray ! Your profile is complete.
 					</h4>
 					<div class="c100 p100 small complete ">
 						<span>100%</span>
@@ -77,10 +83,10 @@
 			<div class="row">
 				<h3 class="text-extrabold">Your personal informations</h3>
 
-				<div
-					class="col-xs-12 col-sm-6 col-md-4">
+				{# FORM GENRE #}
 
-					{# FORM GENRE #}
+				<div class="col-xs-12 col-sm-6 col-md-4">
+
 
 					<div class="input-field">
 						{{ form_widget(form.gender) }}
@@ -91,10 +97,11 @@
 
 
 				<div class="clearfix visible-sm"></div>
-				<div
-					class="col-xs-12 col-sm-6 col-md-4">
 
-					{# FORM FIRST NAME #}
+				{# FORM FIRST NAME #}
+
+				<div class="col-xs-12 col-sm-6 col-md-4">
+
 
 					<div class="input-field">
 
@@ -103,10 +110,10 @@
 						{{ form_errors(form.firstName) }}
 					</div>
 				</div>
-				<div
-					class="col-xs-12 col-sm-6 col-md-4">
+				{# FORM LAST NAME #}
 
-					{# FORM LAST NAME #}
+				<div class="col-xs-12 col-sm-6 col-md-4">
+
 
 					<div class="input-field">
 						{{ form_widget(form.lastName) }}
@@ -114,11 +121,11 @@
 						{{ form_errors(form.lastName) }}
 					</div>
 				</div>
+				{# FORM CURRENT LOCATION #}
 
-				<div
-					class="col-xs-12 col-sm-6 col-md-4">
 
-					{# FORM CURRENT LOCATION #}
+				<div class="col-xs-12 col-sm-6 col-md-4">
+
 
 					<div class="input-field">
 						{{ form_widget(form.currentLocation) }}
@@ -126,10 +133,10 @@
 						{{ form_errors(form.currentLocation) }}
 					</div>
 				</div>
-				<div
-					class="col-xs-12 col-sm-8">
+				{# FORM ADRESS #}
 
-					{# FORM ADRESS #}
+				<div class="col-xs-12 col-sm-8">
+
 
 					<div class="input-field">
 						{{ form_widget(form.adress) }}
@@ -138,11 +145,12 @@
 					</div>
 				</div>
 			</div>
-			<div class="row">
-				<div
-					class="col-xs-12 col-sm-6 col-md-4">
+			<div
+				class="row">
+				{# FORM PHOTO #}
 
-					{# FORM PHOTO #}
+				<div class="col-xs-12 col-sm-6 col-md-4">
+
 
 					<div class="file-field input-field" style="margin-top: 32px;">
 						<div class="btn btn-lg primary waves-effect waves-light">
@@ -150,31 +158,31 @@
 								<i class="material-icons">insert_photo</i>
 								Photo</span>
 							{# <input id="photo" size="20000000" accept=".pdf,.jpg,.doc,.docx,.png,.gif" name="photo" type="file"> #}
-								{{ form_widget(form.thumbnailFile) }}
-								{{ form_errors(form.thumbnailFile) }}
+							{{ form_widget(form.thumbnailFile) }}
+							{{ form_errors(form.thumbnailFile) }}
 
 						</div>
 
 						<div class="existing-file">
-						
-				
-						
+
+
 							<a href="{{ asset('images/profilePicture/' ~ candidate.profilPicture) }}" target="_blank">
 								<i class="material-icons">&#xE24D;</i>
-								  {{ candidate.profilPicture }}</a>
+								{{ candidate.profilPicture }}</a>
 						</div>
-						
+
 						<div class="file-path-wrapper">
 							<input class="file-path validate" type="text" placeholder="Upload your ID photo" readonly>
 						</div>
 					</div>
 				</div>
 				<div class="col-xs-12 col-sm-6 col-md-8">
-					<div class="row">
-						<div
-							class="col-xs-12 col-sm-6">
+					<div
+						class="row">
+						{# FORM COUNTRY #}
 
-							{# FORM COUNTRY #}
+						<div class="col-xs-12 col-sm-6">
+
 
 							<div class="input-field">
 								{{ form_widget(form.country) }}
@@ -182,11 +190,10 @@
 								{{ form_errors(form.country) }}
 							</div>
 						</div>
-						<div
-							class="col-xs-12 col-sm-6">
+						{# FORM NATIONALITY #}
 
-							{# FORM NATIONALITY #}
-							
+						<div class="col-xs-12 col-sm-6">
+
 
 							<div class="input-field">
 								{{ form_widget(form.nationality) }}
@@ -194,20 +201,23 @@
 								{{ form_errors(form.nationality) }}
 							</div>
 						</div>
-						<div
-							class="col-xs-12 col-sm-6">
+						{# FORM BIRTHDATE #}
 
-							{# FORM BIRTHDATE #}
+						<div class="col-xs-12 col-sm-6">
+
 
 							<div class="input-field">
-								<input class="datepicker" id="birth_date" name="birth_date" type="text" value="">
-								<label for="birth_date">Birthdate</label>
+								{# <input class="datepicker" id="birth_date" name="birth_date" type="text" value="">
+								<label for="birth_date">Birthdate</label> #}
+								{{ form_widget(form.dateBirth) }}
+								{{ form_label(form.dateBirth) }}
+								{{ form_errors(form.dateBirth) }}
 							</div>
 						</div>
-						<div
-							class="col-xs-12 col-sm-6">
+						{# FORM BIRTHPLACE #}
 
-							{# FORM BIRTHPLACE #}
+						<div class="col-xs-12 col-sm-6">
+
 
 							<div class="input-field">
 								{{ form_widget(form.birthPlace) }}
@@ -220,26 +230,27 @@
 			</div>
 			<div class="row mt-40">
 				<h3 class="text-extrabold">Your professional profile</h3>
+				{# FORM PASSPORT #}
+
 				<div class="col-xs-12 col-sm-6">
 
-					<div
-						class="card card-panel passport">
+					<div class="card card-panel passport">
 
-						{# FORM PASSPORT #}
 
 						<div class="file-field input-field">
 							<div class="btn btn-lg primary waves-effect waves-light">
 								<span>
 									<i class="material-icons">&#xE24D;</i>
 									Passport</span>
-									{{ form_widget(form.passportFile) }}
+								{{ form_widget(form.passportFile) }}
 								{{ form_errors(form.passportFile) }}
-								
+
 							</div>
 							<div class="existing-file">
-								<a href="#!" target="_blank">
-									<i class="material-icons">&#xE24D;</i>
-									passeport.jpg</a>
+								
+									<a href="{{ asset('images/passport/' ~ candidate.passport) }}" target="_blank">
+								<i class="material-icons">&#xE24D;</i>
+								{{ candidate.passport }}</a>
 							</div>
 							<div class="file-path-wrapper">
 								<input class="file-path validate" type="text" placeholder="Upload your passport" readonly>
@@ -254,15 +265,15 @@
 								<span>
 									<i class="material-icons">&#xE24D;</i>
 									CV</span>
-									{{ form_widget(form.cvFile) }}
+								{{ form_widget(form.cvFile) }}
 								{{ form_errors(form.cvFile) }}
-								
+
 							</div>
 
 							<div class="existing-file">
-								<a href="#!" target="_blank">
-									<i class="material-icons">&#xE24D;</i>
-									CV.pdf</a>
+								<a href="{{ asset('images/cv/' ~ candidate.cv) }}" target="_blank">
+								<i class="material-icons">&#xE24D;</i>
+								{{ candidate.cv }}</a>
 							</div>
 							<div class="file-path-wrapper">
 								<input class="file-path validate" type="text" placeholder="Upload your Curriculum Vitae" readonly>
@@ -272,16 +283,17 @@
 					</div>
 				</div>
 
-				<div class="col-xs-12 col-sm-6">
-					<div
-						class="col-xs-12 col-sm-12">
+				{# FORM JOB SECTOR #}
 
-						{# FORM JOB SECTOR #}
+
+				<div class="col-xs-12 col-sm-6">
+					<div class="col-xs-12 col-sm-12">
+
 
 						<div class="input-field" style="margin-top: 5px;">
 							{{ form_widget(form.jobCategory) }}
-								{{ form_label(form.jobCategory) }}
-								{{ form_errors(form.jobCategory) }}
+							{{ form_label(form.jobCategory) }}
+							{{ form_errors(form.jobCategory) }}
 						</div>
 					</div>
 					<div
@@ -291,21 +303,22 @@
 
 						<div class="input-field">
 							{{ form_widget(form.experience) }}
-								{{ form_label(form.experience) }}
-								{{ form_errors(form.experience) }}
+							{{ form_label(form.experience) }}
+							{{ form_errors(form.experience) }}
 						</div>
 					</div>
 				</div>
-				<div
-					class="col-xs-12 col-sm-12">
 
-					{# FORM DESCRIPTION #}
+				{# FORM DESCRIPTION #}
+
+				<div class="col-xs-12 col-sm-12">
+
 
 					<div class="input-field">
-								{{ form_label(form.shortDescription) }}
+						{{ form_label(form.shortDescription) }}
 
 						{{ form_widget(form.shortDescription) }}
-								{{ form_errors(form.shortDescription) }}
+						{{ form_errors(form.shortDescription) }}
 					</div>
 				</div>
 			</div>
@@ -316,30 +329,30 @@
 		<div class="container">
 			<div class="row">
 				<h3 class="text-extrabold">Your K-Yachting account</h3>
-				<div
-					class="col-xs-12 col-sm-4">
+				{# FORM EMAIL #}
 
-					{# FORM EMAIL #}
+				<div class="col-xs-12 col-sm-4">
+
 
 					<div class="input-field">
 						<input id="email" name="email" type="email" value="">
 						<label for="email">Email</label>
 					</div>
 				</div>
-				<div
-					class="col-xs-12 col-sm-4">
+				{# FORM PASSWORD #}
 
-					{# FORM PASSWORD #}
+				<div class="col-xs-12 col-sm-4">
+
 
 					<div class="input-field">
 						<input id="password" name="password" type="password" value="">
 						<label for="password">Change your password here</label>
 					</div>
 				</div>
-				<div
-					class="col-xs-12 col-sm-4">
+				{# FORM CONFIRM PASSWORD #}
 
-					{# FORM CONFIRM PASSWORD #}
+				<div class="col-xs-12 col-sm-4">
+
 
 					<div class="input-field">
 						<input id="password_repeat" name="password_repeat" type="password" value="">
