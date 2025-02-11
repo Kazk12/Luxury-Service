@@ -1,25 +1,40 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}JobOffer index{% endblock %}
+{% block favIcon %}
+     <link rel="shortcut icon" href="assets/img/ico/fav.png">
+ {% endblock %}
 
 {% block body %}
-    <h1>JobOffer index</h1>
+ <section class="page-title page-title-bg fixed-bg overlay dark-5 padding-top-160 padding-bottom-80">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-12">
+                        <h2 class="white-text">Our job offers</h2>
+                        <span class="white-text">Search and filter by job category</span>
+                        
+                    </div>
+                </div>
+            </div>
+        </section>
+         <!-- Page Content-->
+        <section id="job-offers" class="section-padding gray-bg">
+            <div class="container">
+                <div class="text-center mb-40">
+                    <h2 class="section-title">We have the perfect job for you</h2>
+                    <p class="section-sub">just like our candidates, we offer quality, serious & reliable job offers.</p>
+                </div>
 
+        <div class="portfolio-container">
+
+                    <ul class="portfolio-filter brand-filter text-center">
+                      <li class="active waves-effect waves-light" data-group="all">All</li>
+                     {% for categorie in categories %}
+                      <li class="waves-effect waves-light"><a href="{{ path('app_job_offer_category', {'id': categorie.id}) }}">{{ categorie.name }}</a></li>
+                {% endfor %}
+                      
+                    </ul>
     <table class="table">
-        <thead>
-            <tr>
-                <th>Id</th>
-                <th>Description</th>
-                <th>JobTitle</th>
-                <th>Salary</th>
-                <th>Notes</th>
-                <th>Location</th>
-                <th>Active</th>
-                <th>CreatedAt</th>
-                <th>UpdatedAt</th>
-                <th>actions</th>
-            </tr>
-        </thead>
+
         <tbody>
         {% for job_offer in job_offers %}
             <tr>
@@ -34,7 +49,7 @@
                 <td>{{ job_offer.updatedAt ? job_offer.updatedAt|date('Y-m-d H:i:s') : '' }}</td>
                 <td>
                     <a href="{{ path('app_job_offer_show', {'id': job_offer.id}) }}">show</a>
-                    <a href="{{ path('app_job_offer_edit', {'id': job_offer.id}) }}">edit</a>
+                    {# <a href="{{ path('app_job_offer_edit', {'id': job_offer.id}) }}">edit</a> #}
                 </td>
             </tr>
         {% else %}
@@ -45,5 +60,18 @@
         </tbody>
     </table>
 
-    <a href="{{ path('app_job_offer_new') }}">Create new</a>
+    {# <a href="{{ path('app_job_offer_new') }}">Create new</a> #}
+{% endblock %}
+
+{% block javascriptFoote %}
+
+
+<script type="text/javascript">
+
+    onAppReady(function() {
+        $('.preload').remove();
+    });
+
+    
+</script>
 {% endblock %}

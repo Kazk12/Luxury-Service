@@ -335,8 +335,10 @@
 
 
 					<div class="input-field">
-						<input id="email" name="email" type="email" value="">
-						<label for="email">Email</label>
+						
+						{{ form_widget(form.email) }}
+						{{ form_label(form.email) }}
+						{{ form_errors(form.email) }}
 					</div>
 				</div>
 				{# FORM PASSWORD #}
@@ -345,8 +347,10 @@
 
 
 					<div class="input-field">
-						<input id="password" name="password" type="password" value="">
-						<label for="password">Change your password here</label>
+						
+						{{ form_widget(form.newPassword.first) }}
+						{{ form_label(form.newPassword.first) }}
+						{{ form_errors(form.newPassword.first) }}
 					</div>
 				</div>
 				{# FORM CONFIRM PASSWORD #}
@@ -355,8 +359,11 @@
 
 
 					<div class="input-field">
-						<input id="password_repeat" name="password_repeat" type="password" value="">
-						<label for="password_repeat">Confirm your new password</label>
+					
+
+						{{ form_widget(form.newPassword.second) }}
+						{{ form_label(form.newPassword.second) }}
+						{{ form_errors(form.newPassword.second) }}
 					</div>
 				</div>
 			</div>
