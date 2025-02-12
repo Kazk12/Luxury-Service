@@ -41,6 +41,9 @@ $(handler);
 		<link href="{{ asset('css/luxury.css') }}" rel="stylesheet">
 		<link href="{{ asset('css/custom.css') }}" rel="stylesheet">
 
+		<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+        <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+
 		<link href="https://assets-luxury.projets.garage404.com/css/materialize.css" rel="stylesheet">
 		<link href="https://assets-luxury.projets.garage404.com/css/bootstrap.css" rel="stylesheet">
 		<link href="https://assets-luxury.projets.garage404.com/css/style.css" rel="stylesheet">
@@ -119,7 +122,7 @@ $(handler);
 											<a href="{{ path('app_home_index') }}">Home</a>
 										</li>
 										<li>
-											<a href="{{ path('jobs_index') }}">Jobs Offers</a>
+											<a href="{{ path('All_Jobs') }}">Jobs Offers</a>
 										</li>
 										<li>
 											<a href="{{ path('compagny_index') }}">About Us</a>
@@ -171,7 +174,7 @@ $(handler);
 									</a>
 								</li>
 								<li class=" dropdown">
-									<a target="_self" href="{{ path('jobs_index') }}">
+									<a target="_self" href="{{ path('All_Jobs') }}">
 										<i class=""></i>
 										<span>Jobs offers</span>
 									</a>
@@ -280,7 +283,7 @@ $(handler);
 								</a>
 							</li>
 							<li class=" dropdown">
-								<a target="_self" href="{{ path('jobs_index') }}">
+								<a target="_self" href="{{ path('All_Jobs') }}">
 									<span>Jobs offers</span>
 								</a>
 							</li>

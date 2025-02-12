@@ -16,6 +16,19 @@ class JobOfferRepository extends ServiceEntityRepository
         parent::__construct($registry, JobOffer::class);
     }
 
+
+     /**
+     * @return JobOffer[] Returns an array of JobOffer objects
+     */
+    public function findLatestJobOffers(): array
+    {
+        return $this->createQueryBuilder('j')
+            ->orderBy('j.id', 'DESC')
+            ->setMaxResults(10)
+            ->getQuery()
+            ->getResult();
+    }
+
     //    /**
     //     * @return JobOffer[] Returns an array of JobOffer objects
     //     */

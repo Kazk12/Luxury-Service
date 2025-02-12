@@ -2,8 +2,10 @@
 
 namespace App\Controller;
 
+use App\Entity\Application;
 use App\Entity\JobOffer;
 use App\Form\JobOfferType;
+use App\Repository\CandidateRepository;
 use App\Repository\JobCategoryRepository;
 use App\Repository\JobOfferRepository;
 use Doctrine\ORM\EntityManagerInterface;
@@ -15,28 +17,37 @@ use Symfony\Component\Routing\Attribute\Route;
 #[Route('/job')]
 final class JobOfferController extends AbstractController
 {
-    #[Route( methods: ['GET'])]
-    public function index(JobOfferRepository $jobOfferRepository, JobCategoryRepository $jobRepository): Response
+    #[Route(name: 'All_Jobs',  methods: ['GET'])]
+    public function index(
+        JobOfferRepository $jobOfferRepository,
+        JobCategoryRepository $jobRepository,
+         EntityManagerInterface $entityManager,
+         CandidateRepository $candidatRepository,
+      ): Response
     {
+
+         /** 
+         * @var User $user
+         */
+        $user = $this->getUser();
+        if(!$user){
+            return $this->redirectToRoute('app_login');
+        }
+
+        $candidate = $candidatRepository->findOneBy(['user' => $user->getId()]);
+        $jobOfferer = $jobOfferRepository->findLatestJobOffers();
+
         $categories = $jobRepository->findAll();
+
+        $existingCandidatures = $entityManager->getRepository(Application::class)->findBy(['candidate' => $candidate]);
         return $this->render('job_offer/index.html.twig', [
-            'job_offers' => $jobOfferRepository->findAll(),
-            'categories' => $categories
+            'job_offers' => $jobOfferRepository->findLatestJobOffers(),
+            'categories' => $categories,
+            'existingCandidatures' => $existingCandidatures,
         ]);
     }
 
-    #[Route('/category/{id}', name: 'app_job_offer_category', methods: ['GET'])]
-    public function category(JobCategoryRepository $jobCategoryRepository, JobOfferRepository $jobOfferRepository, int $id): Response
-    {
-        $category = $jobCategoryRepository->find($id);
-        $jobOffers = $jobOfferRepository->findBy(['jobCategory' => $category]);
-
-        return $this->render('job_offer/index.html.twig', [
-            'job_offers' => $jobOffers,
-            'categories' => $jobCategoryRepository->findAll(),
-            'selected_category' => $category,
-        ]);
-    }
+  
 
     #[Route('/{id}', name: 'app_job_offer_show', methods: ['GET'])]
     public function show(JobOffer $jobOffer): Response

@@ -26,9 +26,7 @@ class Candidate
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $lastName = null;
 
-    #[ORM\OneToOne(cascade: ['persist', 'remove'])]
-    #[ORM\JoinColumn(nullable: false)]
-    private ?User $user = null;
+   
 
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $adress = null;
@@ -93,6 +91,10 @@ class Candidate
     #[ORM\OneToMany(targetEntity: Application::class, mappedBy: 'candidate')]
     private Collection $applications;
 
+    #[ORM\OneToOne(inversedBy: 'candidate', cascade: ['persist', 'remove'])]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?User $user = null;
+
     public function __construct(DateTimeImmutable $createdAt = new DateTimeImmutable(), DateTimeImmutable $updatedAt = new DateTimeImmutable())
     {
         $this->createdAt = $createdAt;
@@ -131,17 +133,7 @@ class Candidate
         return $this;
     }
 
-    public function getUser(): ?User
-    {
-        return $this->user;
-    }
-
-    public function setUser(User $user): static
-    {
-        $this->user = $user;
-
-        return $this;
-    }
+   
 
     public function getAdress(): ?string
     {
@@ -416,6 +408,18 @@ class Candidate
                 $application->setCandidate(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getUser(): ?User
+    {
+        return $this->user;
+    }
+
+    public function setUser(User $user): static
+    {
+        $this->user = $user;
 
         return $this;
     }
