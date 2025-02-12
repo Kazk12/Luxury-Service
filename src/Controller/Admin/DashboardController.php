@@ -55,10 +55,17 @@ class DashboardController extends AbstractDashboardController
 
     public function configureMenuItems(): iterable
     {
+
+        $user = $this->getUser();
+        $roles = $user->getRoles();
+
+        if (in_array('ROLE_ADMIN', $roles)) {
+
+
         yield MenuItem::linkToDashboard('Dashboard', 'fa fatachometer-alt');
         yield MenuItem::section('Jobs');
 
-
+         
         yield MenuItem::section('Candidates');
         yield MenuItem::linkToCrud('Gender', 'fas fa-venus-mars', Gender::class);
         yield MenuItem::linkToCrud('Experience', 'fas fa-briefcase', Experience::class);
@@ -73,5 +80,7 @@ class DashboardController extends AbstractDashboardController
         yield MenuItem::linkToCrud('Job Offer', 'fas fa-user-tie', JobOffer::class);
 
         // yield MenuItem::linkToCrud('The Label', 'fas fa-list', EntityClass::class);
+    }
+
     }
 }

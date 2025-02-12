@@ -32,6 +32,7 @@ class CandidateType extends AbstractType
             ->add('firstName', TextType::class, [
                 'label' => 'First name',
                 'required' => false,
+                'empty_data' => '',
                 'attr' => [
                     'id' => 'first_name',
                     'class' => 'form-control'
@@ -39,6 +40,8 @@ class CandidateType extends AbstractType
             ])
             ->add('lastName', TextType::class, [
                 'label' => 'Last name',
+                'empty_data' => '',
+                'required' => false,
                 'attr' => [
                     'id' => 'last_name',
                     'class' => 'form-control'
@@ -46,6 +49,8 @@ class CandidateType extends AbstractType
             ])
             ->add('currentLocation', TextType::class, [
                 'label' => 'Current location',
+                'empty_data' => '',
+                'required' => false,
                 'attr' => [
                     'id' => 'current_location',
                     'class' => 'form-control'
@@ -53,6 +58,8 @@ class CandidateType extends AbstractType
             ])
             ->add('adress', TextType::class, [
                 'label' => 'adress',
+                'empty_data' => '',
+                'required' => false,
                 'attr' => [
                     'id' => 'address',
                     'class' => 'form-control'
@@ -60,6 +67,8 @@ class CandidateType extends AbstractType
             ])
             ->add('country', TextType::class, [
                 'label' => 'country',
+                'required' => false,
+                'empty_data' => '',
                 'attr' => [
                     'id' => 'country',
                     'class' => 'form-control'
@@ -67,6 +76,8 @@ class CandidateType extends AbstractType
             ])
             ->add('nationality', TextType::class, [
                 'label' => 'nationality',
+                'required' => false,
+                'empty_data' => '',
                 'attr' => [
                     'id' => 'nationality',
                     'class' => 'form-control'
@@ -75,6 +86,8 @@ class CandidateType extends AbstractType
 
             ->add('shortDescription', TextType::class, [
                 'label' => 'Short description for your profile, as well as more personnal informations (e.g. your hobbies/interests ). You can also paste any link you want.',
+                'required' => false,
+                'empty_data' => '',
                 'attr' => [
                     'id' => 'description',
                     'cols' => "50",
@@ -85,6 +98,8 @@ class CandidateType extends AbstractType
 
             ->add('gender', EntityType::class, [
                 'class' => Gender::class,
+                'required' => false,
+                'empty_data' => '',
                 'attr' => [
                     'id' => 'gender',
                     'class' => 'form-control ',
@@ -100,6 +115,8 @@ class CandidateType extends AbstractType
 
             ->add('experience', EntityType::class, [
                 'class' => Experience::class,
+                'required' => false,
+                'empty_data' => '',
                 'attr' => [
                     'id' => 'experience',
                     'class' => 'form-control ',
@@ -107,11 +124,14 @@ class CandidateType extends AbstractType
                 'label' => "Gender :",
                 'label_attr' => [
                     'class' => 'active',  
-                ]
+                ],
+                'placeholder' => 'Choose an option...',
             ])
 
             ->add('jobCategory', EntityType::class, [
                 'class' => JobCategory::class,
+                'required' => false,
+                'empty_data' => '',
                 'attr' => [
                     'id' => 'job_sector',
                     'class' => 'form-control ',
@@ -120,12 +140,14 @@ class CandidateType extends AbstractType
                 'label' => "Interest in job sector :",
                 'label_attr' => [
                     'class' => 'active',  
-                ]
+                ],
+                'placeholder' => 'Choose an option...',
             ])
 
             ->add('thumbnailFile', FileType::class, [
                 
                 'required' => false,
+                
                 'attr' => [
                     'id' => 'profile_picture',
                     'class' => 'form-control',
@@ -135,7 +157,7 @@ class CandidateType extends AbstractType
                 ],
             ])
             ->add('cvFile', FileType::class, [
-                
+              
                 'required' => false,
                 'attr' => [
                     'id' => 'cv',
@@ -197,6 +219,7 @@ class CandidateType extends AbstractType
 
             ->add('dateBirth', DateType::class, [
                 'label' => 'Birthdate',
+                'required' => false,
                 'attr' => [
                     'class' => 'form-control',
                     'id' => 'birth_date',
@@ -208,6 +231,7 @@ class CandidateType extends AbstractType
 
             ->add('birthPlace', TextType::class, [
                 'label' => 'birthPlace',
+                'required' => false,
                 'attr' => [
                     'id' => 'birth_place',
                     'class' => 'form-control'

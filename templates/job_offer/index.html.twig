@@ -1,113 +1,120 @@
 {% extends 'base.html.twig' %}
 
 {% block favIcon %}
-     <link rel="shortcut icon" href="assets/img/ico/fav.png">
- {% endblock %}
+	<link rel="shortcut icon" href="assets/img/ico/fav.png">
+{% endblock %}
 
 {% block body %}
- <section class="page-title page-title-bg fixed-bg overlay dark-5 padding-top-160 padding-bottom-80">
-            <div class="container">
-                <div class="row">
-                    <div class="col-md-12">
-                        <h2 class="white-text">Our job offers</h2>
-                        <span class="white-text">Search and filter by job category</span>
-                        
-                    </div>
-                </div>
-            </div>
-        </section>
-         <!-- Page Content-->
-        <section id="job-offers" class="section-padding gray-bg">
-            <div class="container">
-                <div class="text-center mb-40">
-                    <h2 class="section-title">We have the perfect job for you</h2>
-                    <p class="section-sub">just like our candidates, we offer quality, serious & reliable job offers.</p>
-                </div>
+	<section class="page-title page-title-bg fixed-bg overlay dark-5 padding-top-160 padding-bottom-80">
+		<div class="container">
+			<div class="row">
+				<div class="col-md-12">
+					<h2 class="white-text">Our job offers</h2>
+					<span class="white-text">Search and filter by job category</span>
 
-        <div class="portfolio-container">
+				</div>
+			</div>
+		</div>
+	</section>
+	<!-- Page Content-->
+	<section id="job-offers" class="section-padding gray-bg">
+		<div class="container">
+			<div class="text-center mb-40">
+				<h2 class="section-title">We have the perfect job for you</h2>
+				<p class="section-sub">just like our candidates, we offer quality, serious & reliable job offers.</p>
+			</div>
 
-                    <ul class="portfolio-filter brand-filter text-center">
-                      <li class="active waves-effect waves-light" data-group="all">All</li>
-                     {% for job_offer in job_offers %}
-                      <li class="waves-effect waves-light" data-group="{{ job_offer.jobCategory.slug }}">
-                      {{ job_offer.jobCategory.name }}
-                      </li>
-                {% endfor %}
-                      
-                    </ul>
+			<div class="portfolio-container">
 
-                    <div class="portfolio portfolio-with-title col-2 gutter mt-30">
-                    {% for job_offer in job_offers %}
-                        <div class="portfolio-item" data-groups='["all", "{{job_offer.jobCategory.slug}}"]'>
-                            <div class="portfolio-wrapper">
-                                <div class="card job-card">
-                                    <div class="card-content">
-                                        <span class="title">
-                                            <span class="card-title">{{ job_offer.jobTitle }}</span>
-                                            <span class="ref grey-text">{{ job_offer.id }}</span>
-                                        </span>
-                                        <div class="metas mb-20">
-                                            <div class="meta">
-                                                <i class="material-icons">&#xE53E;</i>{{ job_offer.salary }}k&euro;
-                                            </div>
-                                            <div class="meta">
-                                                <i class="material-icons">&#xE916;</i>{{ job_offer.createdAt ? job_offer.createdAt|date('Y-m-d H:i:s') : '' }}
-                                            </div>
-                                            <div class="meta">
-                                                <i class="material-icons">&#xE55F;</i>{{ job_offer.location }}
-                                            </div>
-                                        </div>
-                                        <p class="truncate-text">{{ job_offer.description }}.</p>
-                                    </div>
-                                    <div class="card-action">
-                                        <a class="btn btn-md primary border waves-effect waves-dark" href="{{ path('app_job_offer_show', {id: job_offer.id}) }}">Details</a>
-                                       
-                                                   {% set hasApplied = false %}
-                                        {% for candidature in existingCandidatures %}
-                                            {% if candidature.jobOffer.id == job_offer.id %}
-                                                {% set hasApplied = true %}
-                                                
-                                            {% endif %}
-                                        {% endfor %}
+				<ul class="portfolio-filter brand-filter text-center">
+					<li class="active waves-effect waves-light" data-group="all">All</li>
+					{% for job_offer in job_offers %}
+						<li class="waves-effect waves-light" data-group="{{ job_offer.job_category_slug }}">
+							{{ job_offer.job_category }}
+						</li>
+					{% endfor %}
 
-                                        {% if hasApplied %}
-                                            <a class="btn btn-success waves-effect waves-light" href="#">You have already applied</a>
-                                        {% else %}
-                                            <a class="btn btn-md primary waves-effect waves-light" href="#">Apply</a>
-                                        {% endif %}
+				</ul>
 
-                                        
-                                        </form>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        {% endfor %}
-                        
-                       
-                        <div class="no-item"></div>
-                    </div>
-                </div>
-            </div>
-        </section>
-    {# <table class="table">
+				<div class="portfolio portfolio-with-title col-2 gutter mt-30">
+					{% for job_offer in job_offers %}
+						<div class="portfolio-item" data-groups='["all", "{{job_offer.job_category_slug}}"]'>
+							<div class="portfolio-wrapper">
+								<div class="card job-card">
+									<div class="card-content">
+										<span class="title">
+											<span class="card-title">{{ job_offer.job_title }}</span>
+											<span class="ref grey-text">{{ job_offer.id }}</span>
+										</span>
+										<div class="metas mb-20">
+											<div class="meta">
+												<i class="material-icons">&#xE53E;</i>
+												{{ job_offer.salary }}k&euro;
+											</div>
+											<div class="meta">
+												<i class="material-icons">&#xE916;</i>
+												{{ job_offer.created_at ? job_offer.created_at|date('Y-m-d H:i:s') : '' }}
+											</div>
+											{# <div class="meta">
+												<i class="material-icons">&#xE55F;</i>
+												{{ job_offer.location }}
+											</div> #}
+										</div>
+										<p class="truncate-text">{{ job_offer.description }}.</p>
+									</div>
+									<div class="card-action">
+										<a class="btn btn-md primary border waves-effect waves-dark" href="{{ path('app_job_offer_show', {id: job_offer.id}) }}">Details</a>
 
-        <tbody>
-        {% for job_offer in job_offers %}
-            <tr>
-                <td>{{ job_offer.id }}</td>
-                <td>{{ job_offer.description }}</td>
-                <td>{{ job_offer.jobTitle }}</td>
-                <td>{{ job_offer.salary }}</td>
-                <td>{{ job_offer.notes }}</td>
-                <td>{{ job_offer.location }}</td>
-                <td>{{ job_offer.active ? 'Yes' : 'No' }}</td>
-                <td>{{ job_offer.createdAt ? job_offer.createdAt|date('Y-m-d H:i:s') : '' }}</td>
-                <td>{{ job_offer.updatedAt ? job_offer.updatedAt|date('Y-m-d H:i:s') : '' }}</td>
-                <td>
-                    <a href="{{ path('app_job_offer_show', {'id': job_offer.id}) }}">show</a>
-                    {# <a href="{{ path('app_job_offer_edit', {'id': job_offer.id}) }}">edit</a> #}
-                {# </td>
+										{% set hasApplied = false %}
+										{% for candidature in existingCandidatures %}
+											{% if candidature.jobOffer.id == job_offer.id %}
+												{% set hasApplied = true %}
+
+											{% endif %}
+										{% endfor %}
+                                        {% if completionRate < 100 %}
+
+											<a class="btn btn-md primary waves-effect waves-light" href="{{ path('app_candidate_new') }}">You need to finish your profile</a>
+                                        {% elseif hasApplied %}                                    
+
+										
+											<a class="btn btn-success waves-effect waves-light" href="#">You have already applied</a>
+										{% else %}
+											<a class="btn btn-md primary waves-effect waves-light" href="{{ path('app_application_new', {id: job_offer.id} ) }}">Apply</a>
+										{% endif %}
+										
+
+										</form>
+									</div>
+								</div>
+							</div>
+						</div>
+					{% endfor %}
+
+
+					<div class="no-item"></div>
+				</div>
+			</div>
+		</div>
+	</section>
+	{# <table class="table">
+	
+	        <tbody>
+	        {% for job_offer in job_offers %}
+	            <tr>
+	                <td>{{ job_offer.id }}</td>
+	                <td>{{ job_offer.description }}</td>
+	                <td>{{ job_offer.jobTitle }}</td>
+	                <td>{{ job_offer.salary }}</td>
+	                <td>{{ job_offer.notes }}</td>
+	                <td>{{ job_offer.location }}</td>
+	                <td>{{ job_offer.active ? 'Yes' : 'No' }}</td>
+	                <td>{{ job_offer.createdAt ? job_offer.createdAt|date('Y-m-d H:i:s') : '' }}</td>
+	                <td>{{ job_offer.updatedAt ? job_offer.updatedAt|date('Y-m-d H:i:s') : '' }}</td>
+	                <td>
+	                    <a href="{{ path('app_job_offer_show', {'id': job_offer.id}) }}">show</a>
+	                    {# <a href="{{ path('app_job_offer_edit', {'id': job_offer.id}) }}">edit</a> #}
+{# </td>
             </tr>
         {% else %}
             <tr>
@@ -115,20 +122,18 @@
             </tr>
         {% endfor %}
         </tbody>
-    </table> #} 
+    </table> #}
 
-    {# <a href="{{ path('app_job_offer_new') }}">Create new</a> #}
+	{# <a href="{{ path('app_job_offer_new') }}">Create new</a> #}
 {% endblock %}
 
 {% block javascriptFooter %}
 
 
-<script type="text/javascript">
+	<script type="text/javascript">
 
-    onAppReady(function() {
-        $('.preload').remove();
-    });
-
-    
-</script>
+		onAppReady(function () {
+$('.preload').remove();
+});
+	</script>
 {% endblock %}

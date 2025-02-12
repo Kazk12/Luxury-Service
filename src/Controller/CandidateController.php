@@ -9,6 +9,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bridge\Twig\Mime\TemplatedEmail;
 use Doctrine\ORM\EntityManagerInterface;
 use App\Form\CandidateType;
+use App\Service\CandidateCompletionCalculator;
 use App\Entity\User;
 use App\Entity\Candidate;
 use App\Repository\CandidateRepository;
@@ -23,6 +24,7 @@ final class CandidateController extends AbstractController
         CandidateRepository $candidatRepository,
         Request $request,
         EntityManagerInterface $entityManager,
+        CandidateCompletionCalculator $completionCalculator,
         UserPasswordHasherInterface $passwordHasher,
         MailerInterface $mailer
     ): Response
@@ -91,10 +93,17 @@ final class CandidateController extends AbstractController
                 
 
             }
+            $completionRate = $completionCalculator->calculateCompletion($candidat);
 
+            // if($completionRate == 100%){
+            //     $this->addFlash('success', 'Your profile is complete!');
+            // }else {
+
+            // }
             return $this->render('profile/profile.html.twig', [
                 'form' => $form,
                 'candidate' => $candidat,
+                'completionRate' => $completionRate,
                
             ]);
         }

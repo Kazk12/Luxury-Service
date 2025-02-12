@@ -11,6 +11,7 @@ use Symfony\Component\HttpFoundation\File\File;
 use Symfony\Component\Validator\Constraints as Assert;
 use Vich\UploaderBundle\Mapping\Annotation as Vich;
 use Doctrine\Common\Collections\Collection;
+use App\Attribute\ProfileCompletion;
 #[ORM\Entity(repositoryClass: CandidateRepository::class)]
 #[Vich\Uploadable]
 class Candidate
@@ -21,38 +22,49 @@ class Candidate
     private ?int $id = null;
 
     #[ORM\Column(length: 255, nullable: true)]
+    #[ProfileCompletion]
     private ?string $firstName = null;
 
     #[ORM\Column(length: 255, nullable: true)]
+    #[ProfileCompletion]
     private ?string $lastName = null;
 
    
 
     #[ORM\Column(length: 255, nullable: true)]
+    #[ProfileCompletion]
     private ?string $adress = null;
 
     #[ORM\Column(length: 255, nullable: true)]
+    #[ProfileCompletion]
     private ?string $currentLocation = null;
 
     #[ORM\Column(length: 255, nullable: true)]
+    #[ProfileCompletion]
     private ?string $country = null;
 
     #[ORM\Column(length: 255, nullable: true)]
+    #[ProfileCompletion]
     private ?string $nationality = null;
 
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $birthPlace = null;
 
     #[ORM\ManyToOne(inversedBy: 'candidates')]
+    #[ProfileCompletion]
     private ?Gender $gender = null;
 
     #[ORM\ManyToOne(inversedBy: 'candidates')]
+    #[ProfileCompletion]
     private ?Experience $experience = null;
 
     #[ORM\ManyToOne(inversedBy: 'candidates')]
+    #[ProfileCompletion]
     private ?JobCategory $jobCategory = null;
 
     #[ORM\Column(length: 255, nullable: true)]
+    #[ProfileCompletion]
+    
     private ?string $profilPicture = null;
 
     #[Vich\UploadableField(mapping: 'profilePicture', fileNameProperty: 'profilPicture')]
@@ -63,9 +75,12 @@ class Candidate
     private ?\DateTimeImmutable $updatedAt = null;
 
     #[ORM\Column(type: Types::TEXT, nullable: true)]
+    #[ProfileCompletion]
     private ?string $shortDescription = null;
 
     #[ORM\Column(length: 255, nullable: true)]
+    #[ProfileCompletion]
+    
     private ?string $passport = null;
 
     #[Vich\UploadableField(mapping: 'passport', fileNameProperty: 'passport')]
@@ -73,6 +88,8 @@ class Candidate
     private ?File $passportFile = null;
 
     #[ORM\Column(length: 255, nullable: true)]
+    #[ProfileCompletion]
+
     private ?string $cv = null;
 
     #[Vich\UploadableField(mapping: 'cv', fileNameProperty: 'cv')]
@@ -83,6 +100,7 @@ class Candidate
     private ?\DateTimeImmutable $createdAt = null;
 
     #[ORM\Column(type: Types::DATE_IMMUTABLE, nullable: true)]
+    #[ProfileCompletion]
     private ?\DateTimeImmutable $dateBirth = null;
 
     /**

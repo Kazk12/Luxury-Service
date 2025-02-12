@@ -46,18 +46,24 @@
 		<div class="container">
 			<div class="row">
 				<div class="score-container">
-					<h4>
-						<img src="{{ asset('img/profile.gif') }}" style="height: 80px; width: 201px;">
-						&nbsp;
-																								                            &nbsp; Hooray ! Your profile is complete.
-					</h4>
-					<div class="c100 p100 small complete ">
-						<span>100%</span>
-						<div class="slice">
-							<div class="bar"></div>
-							<div class="fill"></div>
-						</div>
-					</div>
+					{% if completionRate == 100 %}
+                    <h4>
+                        <img src="{{ asset('img/profile.gif') }}" style="height: 80px; width: 201px;"> &nbsp;
+                        &nbsp; Hooray ! Your profile is complete.
+                    </h4>
+                    {% else %}
+                    <h4>
+                        &nbsp; Your profile is {{completionRate}}% complete, you can complete it by adding more information.
+                    </h4>
+                    {% endif %}
+                    <div class="c100 p{{completionRate}} small complete ">
+                        <span>{{completionRate}}%</span>
+                        <div class="slice">
+                            <div class="bar"></div>
+                            <div class="fill"></div>
+                        </div>
+                    </div>
+
 				</div>
 				<div class="clearfix"></div>
 			</div>

@@ -15,10 +15,20 @@ final class HomeController extends AbstractController
     {
         if($this->getUser() && $this->getUser()->isVerified() == false){
             return $this->redirectToRoute('app_logout');
-        } else {
+        } 
+        // if($this->getUser() && $this->getUser()->getRoles()){
+        //     $roles = $this->getUser()->getRoles();
+        //     if (in_array('ROLE_ADMIN', $roles)){
+        //         return $this->redirectToRoute('admin');
+        //     }
+            
+        // }
+
+        
+        
             return $this->render('home/home.html.twig');
 
-        }
+        
     }
 
     

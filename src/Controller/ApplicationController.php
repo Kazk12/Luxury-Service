@@ -11,6 +11,7 @@ use App\Repository\ApplicationRepository;
 use App\Repository\CandidateRepository;
 use App\Repository\JobCategoryRepository;
 use App\Repository\JobOfferRepository;
+use App\Service\CandidateCompletionCalculator;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -29,8 +30,10 @@ final class ApplicationController extends AbstractController
     // }
 
     #[Route( name: 'app_application_new', methods: ['GET', 'POST'])]
-    public function new(Request $request, EntityManagerInterface $entityManager, CandidateRepository $candidatRepository, JobOfferRepository $jobOfferRepository, JobCategoryRepository $jobRepository): Response
+    public function new(Request $request,CandidateCompletionCalculator $completionCalculator, EntityManagerInterface $entityManager, CandidateRepository $candidatRepository, JobOfferRepository $jobOfferRepository, JobCategoryRepository $jobRepository): Response
     {
+
+      
         $categories = $jobRepository->findAll();
 
          /** 
@@ -45,6 +48,8 @@ final class ApplicationController extends AbstractController
         $allApplication = $entityManager->getRepository(Application::class)->findAll();
         $candidate = $candidatRepository->findOneBy(['user' => $user->getId()]);
         $jobOffer = $jobOfferRepository->findOneBy(['id' => $request->query->get('id')]);
+
+       
 
         
 
@@ -63,6 +68,15 @@ final class ApplicationController extends AbstractController
                 'categories' => $categories
             ]);
         }
+
+        $completionRate = $completionCalculator->calculateCompletion($candidate);
+
+        if($completionRate < 100){
+            $this->addFlash('error', 'Vous devez compléter votre profil à 100% pour postuler à une offre.');
+            return $this->redirectToRoute('app_candidate_new');
+        };
+
+
 
         $form = $this->createForm(ApplicationType::class, $application);
         $form->handleRequest($request);

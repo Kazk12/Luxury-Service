@@ -8,6 +8,7 @@ use App\Form\JobOfferType;
 use App\Repository\CandidateRepository;
 use App\Repository\JobCategoryRepository;
 use App\Repository\JobOfferRepository;
+use App\Service\CandidateCompletionCalculator;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -22,6 +23,7 @@ final class JobOfferController extends AbstractController
         JobOfferRepository $jobOfferRepository,
         JobCategoryRepository $jobRepository,
          EntityManagerInterface $entityManager,
+            CandidateCompletionCalculator $completionCalculator,
          CandidateRepository $candidatRepository,
       ): Response
     {
@@ -34,16 +36,25 @@ final class JobOfferController extends AbstractController
             return $this->redirectToRoute('app_login');
         }
 
+        $offres = $jobOfferRepository->findAllJobs();
+
+       
+
         $candidate = $candidatRepository->findOneBy(['user' => $user->getId()]);
-        $jobOfferer = $jobOfferRepository->findLatestJobOffers();
+        // $jobOfferer = $jobOfferRepository->findLatestJobOffers();
+
+        $completionRate = $completionCalculator->calculateCompletion($candidate);
+
+       
 
         $categories = $jobRepository->findAll();
 
         $existingCandidatures = $entityManager->getRepository(Application::class)->findBy(['candidate' => $candidate]);
         return $this->render('job_offer/index.html.twig', [
-            'job_offers' => $jobOfferRepository->findLatestJobOffers(),
+            'job_offers' => $jobOfferRepository->findAllJobs(),
             'categories' => $categories,
             'existingCandidatures' => $existingCandidatures,
+            'completionRate' => $completionRate,
         ]);
     }
 
