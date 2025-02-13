@@ -30,7 +30,14 @@ final class ApplicationController extends AbstractController
     // }
 
     #[Route( name: 'app_application_new', methods: ['GET', 'POST'])]
-    public function new(Request $request,CandidateCompletionCalculator $completionCalculator, EntityManagerInterface $entityManager, CandidateRepository $candidatRepository, JobOfferRepository $jobOfferRepository, JobCategoryRepository $jobRepository): Response
+    public function new(
+        Request $request,
+        CandidateCompletionCalculator $completionCalculator,
+         EntityManagerInterface $entityManager,
+          CandidateRepository $candidatRepository,
+           JobOfferRepository $jobOfferRepository,
+            JobCategoryRepository $jobRepository
+            ): Response
     {
 
       

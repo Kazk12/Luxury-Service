@@ -10,7 +10,9 @@ class JobOfferWithCountDTO
         public readonly \DateTimeInterface $created_at,
         public readonly string $description,
         public readonly string $job_category,
-        public readonly string $job_category_slug
+        public readonly string $job_category_slug,
+        public readonly string $reference
+
     ) {
     }
 }

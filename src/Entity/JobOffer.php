@@ -58,6 +58,9 @@ class JobOffer
     #[ORM\OneToMany(targetEntity: Application::class, mappedBy: 'jobOffer')]
     private Collection $applications;
 
+    #[ORM\Column(length: 255)]
+    private ?string $reference = null;
+
     public function __construct()
     {
         $this->createdAt = new \DateTimeImmutable();
@@ -228,6 +231,18 @@ class JobOffer
                 $application->setJobOffer(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getReference(): ?string
+    {
+        return $this->reference;
+    }
+
+    public function setReference(string $reference): static
+    {
+        $this->reference = $reference;
 
         return $this;
     }

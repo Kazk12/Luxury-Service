@@ -34,11 +34,11 @@ class JobOfferRepository extends ServiceEntityRepository
 /**
      * @return JobOfferWithCountDTO[]
      */
-    public function findAllWithDetails(int $limit = 10): array
+    public function find10Jobs(int $limit = 10): array
     {
         return $this->createQueryBuilder('j')
-            ->select('NEW App\\DTO\\OffreWithCountDTO(j.id, j.job_title, j.salary, j.created_at, j.description, jc.name)')
-            ->leftJoin('j.job_categoryName', 'jc')
+            ->select('NEW App\\DTO\\JobOfferWithCountDTO(j.id, j.jobTitle, j.salary, j.createdAt, j.description, jc.name, jc.name, j.reference)')
+            ->leftJoin('j.jobCategory', 'jc')
             ->orderBy('j.id', 'DESC')
             ->setMaxResults($limit)
             ->getQuery()
@@ -53,7 +53,7 @@ class JobOfferRepository extends ServiceEntityRepository
     public function findAllJobs(): array
     {
         return $this->createQueryBuilder('jo')
-            ->select('NEW App\\DTO\\JobOfferWithCountDTO(jo.id, jo.jobTitle, jo.salary, jo.createdAt, jo.description, jc.name, jc.slug)')
+            ->select('NEW App\\DTO\\JobOfferWithCountDTO(jo.id, jo.jobTitle, jo.salary, jo.createdAt, jo.description, jc.name, jc.slug, jo.reference)')
             ->leftJoin('jo.jobCategory', 'jc')
             ->orderBy('jo.id', 'DESC')
             ->getQuery()

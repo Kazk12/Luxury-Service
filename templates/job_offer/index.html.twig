@@ -37,14 +37,14 @@
 				</ul>
 
 				<div class="portfolio portfolio-with-title col-2 gutter mt-30">
-					{% for job_offer in job_offers %}
+					{% for job_offer in pagination %}
 						<div class="portfolio-item" data-groups='["all", "{{job_offer.job_category_slug}}"]'>
 							<div class="portfolio-wrapper">
 								<div class="card job-card">
 									<div class="card-content">
 										<span class="title">
 											<span class="card-title">{{ job_offer.job_title }}</span>
-											<span class="ref grey-text">{{ job_offer.id }}</span>
+											<span class="ref grey-text">Ref. {{ job_offer.reference }}</span>
 										</span>
 										<div class="metas mb-20">
 											<div class="meta">
@@ -91,12 +91,18 @@
 						</div>
 					{% endfor %}
 
+					
+
 
 					<div class="no-item"></div>
 				</div>
 			</div>
 		</div>
 	</section>
+
+	<div class="text-center">
+					{{ knp_pagination_render(pagination) }}
+					</div>
 	{# <table class="table">
 	
 	        <tbody>

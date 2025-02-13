@@ -1,6 +1,12 @@
 <?php 
 
 namespace App\Controller;
+
+use App\Repository\CandidateRepository;
+use App\Entity\Application;
+use App\Repository\JobCategoryRepository;
+use App\Repository\JobOfferRepository;
+use App\Service\CandidateCompletionCalculator;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -11,22 +17,41 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 final class HomeController extends AbstractController
 {
     #[Route(name: 'app_home_index')]
-    public function index(): Response
+    public function index(  
+        JobOfferRepository $jobOfferRepository,
+    JobCategoryRepository $jobRepository,
+    EntityManagerInterface $entityManager,
+    CandidateCompletionCalculator $completionCalculator,
+    CandidateRepository $candidatRepository
+    ): Response
     {
+
+
+         /** 
+         * @var User $user
+         */
+        $user = $this->getUser();
+
         if($this->getUser() && $this->getUser()->isVerified() == false){
             return $this->redirectToRoute('app_logout');
         } 
-        // if($this->getUser() && $this->getUser()->getRoles()){
-        //     $roles = $this->getUser()->getRoles();
-        //     if (in_array('ROLE_ADMIN', $roles)){
-        //         return $this->redirectToRoute('admin');
-        //     }
-            
-        // }
 
         
-        
-            return $this->render('home/home.html.twig');
+        $candidate = $candidatRepository->findOneBy(['user' => $user->getId()]);
+
+        $completionRate = $completionCalculator->calculateCompletion($candidate);
+
+        $jobsOffer = $jobOfferRepository->find10Jobs();
+
+        $categories = $jobRepository->findAll();
+        $existingCandidatures = $entityManager->getRepository(Application::class)->findBy(['candidate' => $candidate]);
+   
+            return $this->render('home/home.html.twig', [
+                'categories' => $categories,
+                'jobsOffer' => $jobsOffer,
+                'completionRate' => $completionRate,
+                'existingCandidatures' => $existingCandidatures
+            ]);
 
         
     }

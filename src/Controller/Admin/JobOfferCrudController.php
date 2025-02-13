@@ -25,6 +25,7 @@ class JobOfferCrudController extends AbstractCrudController
             TextField::new('description'),
             TextField::new('location'),
             TextField::new('notes'),
+            TextField::new('reference'),
             NumberField::new('salary'),
             BooleanField::new('active'),
             AssociationField::new('jobCategory')->autocomplete(),
