@@ -21,13 +21,7 @@ use Symfony\Component\Routing\Attribute\Route;
 #[Route('/application')]
 final class ApplicationController extends AbstractController
 {
-    // #[Route(name: 'app_application_index', methods: ['GET'])]
-    // public function index(ApplicationRepository $applicationRepository): Response
-    // {
-    //     return $this->render('application/index.html.twig', [
-    //         'applications' => $applicationRepository->findAll(),
-    //     ]);
-    // }
+ 
 
     #[Route( name: 'app_application_new', methods: ['GET', 'POST'])]
     public function new(
@@ -54,11 +48,7 @@ final class ApplicationController extends AbstractController
         $application = new Application();
         $allApplication = $entityManager->getRepository(Application::class)->findAll();
         $candidate = $candidatRepository->findOneBy(['user' => $user->getId()]);
-        $jobOffer = $jobOfferRepository->findOneBy(['id' => $request->query->get('id')]);
-
-       
-
-        
+        $jobOffer = $jobOfferRepository->findOneBy(['id' => $request->query->get('id')]);    
 
         $application->setJobOffer($jobOffer);
         $application->setCandidate($candidate);
@@ -84,68 +74,15 @@ final class ApplicationController extends AbstractController
         };
 
 
-
         $form = $this->createForm(ApplicationType::class, $application);
         $form->handleRequest($request);
-       
-       
-     
-
+ 
 
         $entityManager->persist($application);
         $entityManager->flush();
 
-            
 
-        // if ($form->isSubmitted() && $form->isValid()) {
-
-          
-            
-           
-
-        //     return $this->redirectToRoute('app_home_index', [], Response::HTTP_SEE_OTHER);
-        // }
-
-        return $this->render('home/home.html.twig', [
-            'application' => $application,
-            'form' => $form,
-        ]);
+        return $this->redirectToRoute('app_home_index');
     }
 
-    // #[Route('/{id}', name: 'app_application_show', methods: ['GET'])]
-    // public function show(Application $application): Response
-    // {
-    //     return $this->render('application/show.html.twig', [
-    //         'application' => $application,
-    //     ]);
-    // }
-
-    // #[Route('/{id}/edit', name: 'app_application_edit', methods: ['GET', 'POST'])]
-    // public function edit(Request $request, Application $application, EntityManagerInterface $entityManager): Response
-    // {
-    //     $form = $this->createForm(ApplicationType::class, $application);
-    //     $form->handleRequest($request);
-
-    //     if ($form->isSubmitted() && $form->isValid()) {
-    //         $entityManager->flush();
-
-    //         return $this->redirectToRoute('app_application_index', [], Response::HTTP_SEE_OTHER);
-    //     }
-
-    //     return $this->render('application/edit.html.twig', [
-    //         'application' => $application,
-    //         'form' => $form,
-    //     ]);
-    // }
-
-    // #[Route('/{id}', name: 'app_application_delete', methods: ['POST'])]
-    // public function delete(Request $request, Application $application, EntityManagerInterface $entityManager): Response
-    // {
-    //     if ($this->isCsrfTokenValid('delete'.$application->getId(), $request->getPayload()->getString('_token'))) {
-    //         $entityManager->remove($application);
-    //         $entityManager->flush();
-    //     }
-
-    //     return $this->redirectToRoute('app_application_index', [], Response::HTTP_SEE_OTHER);
-    // }
 }

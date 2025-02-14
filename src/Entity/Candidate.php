@@ -120,6 +120,15 @@ class Candidate
         $this->applications = new ArrayCollection();
     }
 
+    public function __serialize(): array
+    {
+        return [];
+    }
+
+    // public function __unserialize(array $data): void
+    // {
+    // }
+
 
 
     public function getId(): ?int

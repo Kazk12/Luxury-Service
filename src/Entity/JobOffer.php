@@ -37,7 +37,7 @@ class JobOffer
     #[ORM\Column(type: Types::BIGINT)]
     private ?string $salary = null;
 
-    #[ORM\Column(type: Types::TEXT)]
+    #[ORM\Column(type: Types::TEXT, nullable: true)]
     private ?string $notes = null;
 
     #[ORM\Column(length: 255)]
@@ -66,6 +66,8 @@ class JobOffer
         $this->createdAt = new \DateTimeImmutable();
         $this->updatedAt = new \DateTimeImmutable();
         $this->applications = new ArrayCollection();
+        $this->notes = '';
+       
     }
 
     public function getId(): ?int

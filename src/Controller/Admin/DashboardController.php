@@ -2,6 +2,7 @@
 
 namespace App\Controller\Admin;
 
+use App\Entity\Candidate;
 use App\Entity\Client;
 use App\Entity\Experience;
 use App\Entity\Gender;
@@ -15,6 +16,8 @@ use EasyCorp\Bundle\EasyAdminBundle\Config\MenuItem;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractDashboardController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
+use App\Controller\Admin\Client2CrudController;
+use App\Entity\Application;
 
 #[AdminDashboard(routePath: '/admin', routeName: 'admin')]
 class DashboardController extends AbstractDashboardController
@@ -54,7 +57,9 @@ class DashboardController extends AbstractDashboardController
 
        public function configureMenuItems(): iterable
     {
-
+         /** 
+         * @var User $user
+         */
         $user = $this->getUser();
         $roles = $user->getRoles();
 
@@ -72,7 +77,10 @@ class DashboardController extends AbstractDashboardController
 
         yield MenuItem::section('Recruters');
         yield MenuItem::linkToCrud('Recruters', 'fas fa-user-tie', User::class);
-        yield MenuItem::linkToCrud('Client', 'fas fa-user-tie', Client::class);
+        yield MenuItem::linkToCrud('Client', 'fas fa-user-tie', Client::class)
+        // ->setPermission('ROLE_ADMIN')
+        ->setController(AdminCrudController::class);
+
 
         yield MenuItem::section('Job Offers');
         yield MenuItem::linkToCrud('Job Type', 'fas fa-user-tie', TypeJob::class);
@@ -80,6 +88,19 @@ class DashboardController extends AbstractDashboardController
 
         // yield MenuItem::linkToCrud('The Label', 'fas fa-list', EntityClass::class);
     }
+    if(in_array('ROLE_RECRUTEUR', $roles)){
+        yield MenuItem::linkToDashboard('Dashboard', 'fa fatachometer-alt');
+        yield MenuItem::section('Job Offers');
+        yield MenuItem::linkToCrud('Job Offer', 'fas fa-user-tie', JobOffer::class);
+        
+        yield MenuItem::linkToCrud('Client', 'fas fa-user-tie', Client::class);
 
+        yield MenuItem::section('Candidates');
+        yield MenuItem::linkToCrud('Candidate', 'fas fa-user-tie', Application::class);
+
+
+
+       
     }
+}
 }

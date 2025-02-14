@@ -30,10 +30,23 @@ class Application
     #[ORM\Column(nullable: true)]
     private ?\DateTimeImmutable $deletedAt = null;
 
+    #[ORM\Column(length: 255)]
+    private ?string $status = null;
+
+  
+
+  
+
     public function __construct()
     {
         $this->createdAt = new \DateTimeImmutable();
         $this->updatedAt = new \DateTimeImmutable();
+        $this->status = 'pending';
+    }
+
+    public function __toString()
+    {
+        return $this->status;
     }
 
     public function getId(): ?int
@@ -100,4 +113,20 @@ class Application
 
         return $this;
     }
+
+    public function getStatus(): ?string
+    {
+        return $this->status;
+    }
+
+    public function setStatus(string $status): static
+    {
+        $this->status = $status;
+
+        return $this;
+    }
+
+   
+
+   
 }

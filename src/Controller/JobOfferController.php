@@ -52,7 +52,7 @@ final class JobOfferController extends AbstractController
         $pagination = $paginator->paginate(
             $queryBuilder,
             $request->query->getInt('page', 1),
-            2
+            10
           );
 
         $existingCandidatures = $entityManager->getRepository(Application::class)->findBy(['candidate' => $candidate]);
