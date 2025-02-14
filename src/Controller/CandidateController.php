@@ -94,12 +94,6 @@ final class CandidateController extends AbstractController
 
             }
             $completionRate = $completionCalculator->calculateCompletion($candidat);
-
-            // if($completionRate == 100%){
-            //     $this->addFlash('success', 'Your profile is complete!');
-            // }else {
-
-            // }
             return $this->render('profile/profile.html.twig', [
                 'form' => $form,
                 'candidate' => $candidat,

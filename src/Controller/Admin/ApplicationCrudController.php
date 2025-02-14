@@ -21,6 +21,9 @@ use Symfony\Bundle\SecurityBundle\Security;
 use EasyCorp\Bundle\EasyAdminBundle\Orm\EntityRepository;
 use Doctrine\ORM\QueryBuilder;
 use EasyCorp\Bundle\EasyAdminBundle\Field\ChoiceField;
+use EasyCorp\Bundle\EasyAdminBundle\Field\ImageField;
+use EasyCorp\Bundle\EasyAdminBundle\Field\UrlField;
+use Symfony\Component\DomCrawler\Field\FileFormField;
 
 class ApplicationCrudController extends AbstractCrudController
 {
@@ -83,6 +86,13 @@ class ApplicationCrudController extends AbstractCrudController
         } elseif ($pageName === Crud::PAGE_EDIT) {
             return [
                 IdField::new('id')->hideOnForm(),
+                UrlField::new('candidate.cv', 'CV du candidat')
+                    ->setFormTypeOption('required', false)
+                    
+
+
+                    ->setFormTypeOption('allow_delete', false),
+
                 ChoiceField::new('status', 'Statut')
                     ->setChoices([
                         'En attente' => 'pending',
