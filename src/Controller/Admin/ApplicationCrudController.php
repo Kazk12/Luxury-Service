@@ -3,12 +3,12 @@
 namespace App\Controller\Admin;
 
 use App\Entity\Application;
-use App\Entity\Candidate;
+
 use App\Repository\CandidateRepository;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Action;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Actions;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
-use EasyCorp\Bundle\EasyAdminBundle\Field\AssociationField;
+
 use EasyCorp\Bundle\EasyAdminBundle\Field\IdField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
 
@@ -22,14 +22,12 @@ use EasyCorp\Bundle\EasyAdminBundle\Orm\EntityRepository;
 use Doctrine\ORM\QueryBuilder;
 use EasyCorp\Bundle\EasyAdminBundle\Field\ChoiceField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\ImageField;
-use EasyCorp\Bundle\EasyAdminBundle\Field\UrlField;
-use Symfony\Component\DomCrawler\Field\FileFormField;
+
 
 class ApplicationCrudController extends AbstractCrudController
 {
     private Security $security;
     private EntityRepository $entityRepository;
-    private CandidateRepository $candidateRepository;
 
     public function __construct(
         Security $security,
@@ -77,6 +75,13 @@ class ApplicationCrudController extends AbstractCrudController
             return [
                 IdField::new('id')->hideOnForm(),
                 TextField::new('candidate.lastName', 'Nom du candidat'),
+                ImageField::new('candidate.cv', 'CV du candidat')
+                    ->setBasePath('/images/cv')
+                    ->setUploadDir('public/images/cv')
+                    ->setUploadedFileNamePattern('[randomhash].[extension]')
+                    ->setFormTypeOption('required', false)
+                    ->setFormTypeOption('allow_delete', false)
+                    ->setFormTypeOption('disabled', true),
                 TextField::new('candidate.firstName', 'Nom du candidat'),
                 TextField::new('jobOffer.jobTitle', 'Titre du job'),
                 TextField::new('jobOffer.salary', 'Salaire proposé'),
@@ -86,13 +91,6 @@ class ApplicationCrudController extends AbstractCrudController
         } elseif ($pageName === Crud::PAGE_EDIT) {
             return [
                 IdField::new('id')->hideOnForm(),
-                UrlField::new('candidate.cv', 'CV du candidat')
-                    ->setFormTypeOption('required', false)
-                    
-
-
-                    ->setFormTypeOption('allow_delete', false),
-
                 ChoiceField::new('status', 'Statut')
                     ->setChoices([
                         'En attente' => 'pending',

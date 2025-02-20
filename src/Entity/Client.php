@@ -52,10 +52,10 @@ class Client
         $this->jobOffers = new ArrayCollection();
     }
 
-    public function __toString(): string
-    {
-        return $this->compagyName;
-    }
+    // public function __toString(): string
+    // {
+    //     return $this->compagyName;
+    // }
 
     public function getId(): ?int
     {

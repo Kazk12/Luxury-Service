@@ -18,10 +18,15 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 use App\Controller\Admin\Client2CrudController;
 use App\Entity\Application;
+use EasyCorp\Bundle\EasyAdminBundle\Router\AdminUrlGenerator;
 
 #[AdminDashboard(routePath: '/admin', routeName: 'admin')]
 class DashboardController extends AbstractDashboardController
 {
+    public function __construct(private AdminUrlGenerator $adminUrlGenerator)
+    {
+
+    }
     #[Route('/admin', name: 'admin')]
     public function index(): Response
     {
@@ -93,7 +98,20 @@ class DashboardController extends AbstractDashboardController
         yield MenuItem::section('Job Offers');
         yield MenuItem::linkToCrud('Job Offer', 'fas fa-user-tie', JobOffer::class);
         
-        yield MenuItem::linkToCrud('Client', 'fas fa-user-tie', Client::class);
+        yield MenuItem::section('Fill your profile', 'fa fa-user-tie');
+         /** @var User */
+         $user = $this->getUser();
+         $client = $user->getClient();
+ 
+ 
+         // Générer l'URL de la page d'édition du profil Client
+         $url = $this->adminUrlGenerator
+             ->setController(ClientCrudController::class)
+             ->setAction('edit')
+             ->setEntityId($client->getId())
+             ->generateUrl();
+
+             yield MenuItem::linkToUrl('Here', 'fa fa-arrow-right', $url);
 
         yield MenuItem::section('Candidates');
         yield MenuItem::linkToCrud('Candidate', 'fas fa-user-tie', Application::class);

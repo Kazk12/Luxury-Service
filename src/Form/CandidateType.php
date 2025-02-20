@@ -121,7 +121,7 @@ class CandidateType extends AbstractType
                     'id' => 'experience',
                     'class' => 'form-control ',
                 ],
-                'label' => "Gender :",
+                'label' => "Experience :",
                 'label_attr' => [
                     'class' => 'active',  
                 ],

@@ -12,6 +12,7 @@ use App\Form\CandidateType;
 use App\Service\CandidateCompletionCalculator;
 use App\Entity\User;
 use App\Entity\Candidate;
+use App\Interfaces\PasswordUpdaterInterface;
 use App\Repository\CandidateRepository;
 use Symfony\Component\Mailer\MailerInterface;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
@@ -26,7 +27,8 @@ final class CandidateController extends AbstractController
         EntityManagerInterface $entityManager,
         CandidateCompletionCalculator $completionCalculator,
         UserPasswordHasherInterface $passwordHasher,
-        MailerInterface $mailer
+        PasswordUpdaterInterface $passwordUpdater,
+        
     ): Response
     {
 
@@ -59,34 +61,17 @@ final class CandidateController extends AbstractController
                 $email = $form->get('email')->getData();
                 $newPassword = $form->get('newPassword')->getData();
     
-                if ($email || $newPassword) {
-                    if ($email && $newPassword) {
-                        if ($user->getEmail() !== $email) {
-                            $this->addFlash('danger', 'The email you entered does not match the email associated with your account.');
-                        } else {
-                            $hashedPassword = $passwordHasher->hashPassword($user, $newPassword);
-                            $user->setPassword($hashedPassword);
-                            try {
-                                $mail = (new TemplatedEmail())
-                                    ->from('support@luxury-services.com')
-                                    ->to($user->getEmail())
-                                    ->subject('Change of password')
-                                    ->htmlTemplate('emails/change-password.html.twig');         
-                
-                                $mailer->send($mail);
-                                $this->addFlash('success', 'Your password has been changed successfully!');
-                            } catch (\Exception $e) {
-                                $this->addFlash('danger', 'An error occurred while sending the message : ' . $e->getMessage());
-                            }
-                        }
-                    } else {
-                        $this->addFlash('danger', 'Email and password must be filled together to change password.');
-                    }
+                if ($email && $newPassword) {
+                    $passwordUpdater->updatePassword($user, $email, $newPassword);
+                } elseif ($email || $newPassword) {
+                    $this->addFlash('danger', 'Email and password must be filled together to change password.');
                 }
            
 
-                // $entityManager->persist($candidat);
+                $entityManager->persist($candidat);
                 $entityManager->flush();
+
+                $this->addFlash('success', 'Profile updated successfully!');
 
                 return $this->redirectToRoute('app_candidate_new');
 
@@ -102,5 +87,35 @@ final class CandidateController extends AbstractController
             ]);
         }
     }
+
+
+
+
+
+
+    #[Route('/profile/delete/{id}', name: 'app_profile_delete')]
+    public function delete(
+        Candidate $candidate,
+        EntityManagerInterface $entityManager,
+    ): Response {
+        // verifie si la personne qui supprime est celle qui est connecté
+        /** @var User */
+        $user = $this->getUser();
+        if ($user->getCandidate() !== $candidate) {
+            $this->addFlash('danger', 'You are not allowed to delete this profile!, the admin will be informed of this action.');
+
+            return $this->redirectToRoute('app_profile');
+        }
+
+        $candidate->setDeletedAt(new \DateTimeImmutable());
+        $user->setRoles(['ROLE_DELETED']);
+        $entityManager->flush();
+
+        // $this->addFlash('success', 'Profile deleted successfully!');
+
+        return $this->redirectToRoute('app_logout');
+    }
+
+  
 }
 

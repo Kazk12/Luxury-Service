@@ -21,34 +21,32 @@ use Symfony\Component\Routing\Attribute\Route;
 #[Route('/application')]
 final class ApplicationController extends AbstractController
 {
- 
 
-    #[Route( name: 'app_application_new', methods: ['GET', 'POST'])]
+
+    #[Route(name: 'app_application_new', methods: ['GET', 'POST'])]
     public function new(
         Request $request,
         CandidateCompletionCalculator $completionCalculator,
-         EntityManagerInterface $entityManager,
-          CandidateRepository $candidatRepository,
-           JobOfferRepository $jobOfferRepository,
-            JobCategoryRepository $jobRepository
-            ): Response
-    {
+        EntityManagerInterface $entityManager,
+        CandidateRepository $candidatRepository,
+        JobOfferRepository $jobOfferRepository,
+        JobCategoryRepository $jobRepository
+    ): Response {
 
-      
+
         $categories = $jobRepository->findAll();
 
-         /** 
+        /** 
          * @var User $user
          */
         $user = $this->getUser();
-        if(!$user){
+        if (!$user) {
             return $this->redirectToRoute('app_login');
         }
 
         $application = new Application();
-        $allApplication = $entityManager->getRepository(Application::class)->findAll();
         $candidate = $candidatRepository->findOneBy(['user' => $user->getId()]);
-        $jobOffer = $jobOfferRepository->findOneBy(['id' => $request->query->get('id')]);    
+        $jobOffer = $jobOfferRepository->findOneBy(['id' => $request->query->get('id')]);
 
         $application->setJobOffer($jobOffer);
         $application->setCandidate($candidate);
@@ -68,7 +66,7 @@ final class ApplicationController extends AbstractController
 
         $completionRate = $completionCalculator->calculateCompletion($candidate);
 
-        if($completionRate < 100){
+        if ($completionRate < 100) {
             $this->addFlash('error', 'Vous devez compléter votre profil à 100% pour postuler à une offre.');
             return $this->redirectToRoute('app_candidate_new');
         };
@@ -76,13 +74,15 @@ final class ApplicationController extends AbstractController
 
         $form = $this->createForm(ApplicationType::class, $application);
         $form->handleRequest($request);
- 
+
 
         $entityManager->persist($application);
         $entityManager->flush();
 
+        $this->addFlash('success', 'Votre candidature a bien été envoyée.');
 
-        return $this->redirectToRoute('app_home_index');
+
+
+        return $this->redirectToRoute('All_Jobs');
     }
-
 }

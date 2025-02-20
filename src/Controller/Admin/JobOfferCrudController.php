@@ -65,11 +65,7 @@ class JobOfferCrudController extends AbstractCrudController
         return $jobOffer;
     }
 
-    public function configureCrud(Crud $crud): Crud
-    {
-        return $crud
-            ->setEntityPermission('ROLE_RECRUTEUR');
-    }
+    
 
     public function createIndexQueryBuilder(SearchDto $searchDto, EntityDto $entityDto, FieldCollection $fields, FilterCollection $filters): QueryBuilder
     {
@@ -78,8 +74,10 @@ class JobOfferCrudController extends AbstractCrudController
          */
         $user = $this->getUser();
         $response = $this->entityRepository->createQueryBuilder($searchDto, $entityDto, $fields, $filters);
-        $response->andWhere('entity.client = :client')->setParameter('client', $user->getClient());
 
+        if (!in_array('ROLE_ADMIN', $user->getRoles())) {
+            $response->andWhere('entity.client = :client')->setParameter('client', $user->getClient());
+        }
 
         return $response;
     }
@@ -103,6 +101,21 @@ class JobOfferCrudController extends AbstractCrudController
 
         ];
     }
+
+    public function configureActions(Actions $actions): Actions
+    {
+        $user = $this->getUser();
+        $roles = $user->getRoles();
+
+        if (in_array('ROLE_ADMIN', $roles)) {
+            return $actions
+                ->disable(Action::EDIT, Action::DELETE, Action::NEW);
+        }
+
+        return $actions;
+    }
+
+    
 
 
 
