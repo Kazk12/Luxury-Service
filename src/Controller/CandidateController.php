@@ -26,7 +26,6 @@ final class CandidateController extends AbstractController
         Request $request,
         EntityManagerInterface $entityManager,
         CandidateCompletionCalculator $completionCalculator,
-        UserPasswordHasherInterface $passwordHasher,
         PasswordUpdaterInterface $passwordUpdater,
         
     ): Response
