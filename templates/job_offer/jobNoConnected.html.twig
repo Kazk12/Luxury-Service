@@ -53,32 +53,11 @@
 												<i class="material-icons">&#xE916;</i>
 												{{ job_offer.created_at ? job_offer.created_at|date('Y-m-d H:i:s') : '' }}
 											</div>
-											{# <div class="meta">
-																																		<i class="material-icons">&#xE55F;</i>
-																																		{{ job_offer.location }}
-																																	</div> #}
 										</div>
 										<p class="truncate-text">{{ job_offer.description }}.</p>
 									</div>
-									<div class="card-action">
-										<a class="btn btn-md primary border waves-effect waves-dark" href="{{ path('app_job_offer_show', {id: job_offer.id}) }}">Details</a>
-
-										
-										
-										{% set hasApplied = false %}
-										{% for candidature in existingCandidatures %}
-											{% if candidature.jobOffer.id == job_offer.id %}
-												{% set hasApplied = true %}
-											{% endif %}
-										{% endfor %}
-										{% if completionRate < 100 %}
-											<a class="btn btn-md primary waves-effect waves-light" href="{{ path('app_candidate_new') }}">You need to finish your profile</a>
-										{% elseif hasApplied %}
-											<a class="btn  waves-effect  waves-light" href="#">You have already applied</a>
-										{% else %}
-											<a class="btn btn-md primary waves-effect waves-light" href="{{ path('app_application_new', {id: job_offer.id} ) }}">Apply</a>
-										{% endif %}
-									</form>
+									<div class="card-action">			
+											<a class="btn  waves-effect  waves-light" href="{{ path('app_login') }}">You need to login</a>	
 								</div>
 							</div>
 						</div>

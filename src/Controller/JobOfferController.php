@@ -25,27 +25,18 @@ final class JobOfferController extends AbstractController
         JobCategoryRepository $jobRepository,
         Request $request,
         PaginatorInterface $paginator,
-         EntityManagerInterface $entityManager,
-            CandidateCompletionCalculator $completionCalculator,
-         CandidateRepository $candidatRepository,
-      ): Response
-    {
+        EntityManagerInterface $entityManager,
+        CandidateCompletionCalculator $completionCalculator,
+        CandidateRepository $candidatRepository,
+    ): Response {
 
-         /** 
+        /** 
          * @var User $user
          */
+
         $user = $this->getUser();
-        if(!$user){
-            return $this->redirectToRoute('app_login');
-        }
 
-        $queryBuilder = $jobOfferRepository->findAllJobs();  
-
-        $candidate = $candidatRepository->findOneBy(['user' => $user->getId()]);
-
-        $completionRate = $completionCalculator->calculateCompletion($candidate);
-
-       
+        $queryBuilder = $jobOfferRepository->findAllJobs();
 
         $categories = $jobRepository->findAll();
 
@@ -53,7 +44,31 @@ final class JobOfferController extends AbstractController
             $queryBuilder,
             $request->query->getInt('page', 1),
             10
-          );
+        );
+
+        
+         if (!$user) {
+            return $this->render('job_offer/jobNoConnected.html.twig', [
+                'job_offers' => $queryBuilder,
+                'pagination' => $pagination,
+                'categories' => $categories,
+            ]);
+        }
+
+
+
+
+        $candidate = $candidatRepository->findOneBy(['user' => $user->getId()]);
+
+        $completionRate = $completionCalculator->calculateCompletion($candidate);
+
+
+
+       
+
+      
+
+    
 
         $existingCandidatures = $entityManager->getRepository(Application::class)->findBy(['candidate' => $candidate]);
         return $this->render('job_offer/index.html.twig', [

@@ -16,6 +16,21 @@ use Symfony\Component\HttpFoundation\File\UploadedFile;
 class CandidateFixtures extends Fixture implements DependentFixtureInterface
 {
     public const CANDIDATES_DATA = [
+        'admin' => [
+            'firstName' => 'Admin',
+            'lastName' => 'Admin',
+            'adress' => '1 Admin Street',
+            'currentLocation' => 'Admin City',
+            'country' => 'Admin Country',
+            'nationality' => 'Admin Nationality',
+            'birthDate' => '1980-01-01',
+            'birthPlace' => 'Admin Birthplace',
+            'shortDescription' => 'Administrator of the system.',
+            'profilPicture' => 'admin.jpg',
+            'passport' => 'admin_passport.jpg',
+            'cv' => 'admin_cv.pdf',
+            'experience' => '10+ years'
+        ],
         'test' => [
             'firstName' => 'John',
             'lastName' => 'Doe',

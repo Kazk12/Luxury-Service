@@ -136,7 +136,9 @@ $(handler);
 												<a href="{{ path('app_candidate_new') }}">Profile</a>
 											</li>
 											<li>
-												<a href="{{ path('app_logout') }}">Logout</a>
+												<a target="_self" href="{{ path('app_logout') }}" class="btn bn-lg gradient secondary btn-block waves-effect waves-light btn-register">
+											<span>Logout</span>
+										</a>
 											</li>
 										{% else %}
 											<li>
@@ -195,8 +197,9 @@ $(handler);
 									{% if app.user.isVerified %}
 										<li class=" dropdown">
 											<a target="_self" href="{{ path('app_candidate_new') }}">
-												<i class=""></i>
+												<i class="btn bn-lg gradient info btn-block waves-effect waves-light btn-register">
 												<span>Profile</span>
+												</i>
 											</a>
 										</li>
 									{% endif %}
@@ -204,8 +207,10 @@ $(handler);
 
 									<li class=" dropdown">
 										<a target="_self" href="{{ path('app_logout') }}">
-											<i class=""></i>
+											<i class="btn bn-lg gradient secondary btn-block waves-effect waves-light btn-register">
 											<span>Logout</span>
+
+											</i>
 										</a>
 									</li>
 								{% endif %}
