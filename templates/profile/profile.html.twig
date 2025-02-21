@@ -168,6 +168,7 @@
 							{{ form_errors(form.thumbnailFile) }}
 
 						</div>
+						{% if candidate.profilPicture %}
 
 						<div class="existing-file">
 
@@ -176,6 +177,7 @@
 								<i class="material-icons">&#xE24D;</i>
 								{{ candidate.profilPicture }}</a>
 						</div>
+						{% endif %}
 
 						<div class="file-path-wrapper">
 							<input class="file-path validate" type="text" placeholder="Upload your ID photo" readonly>
@@ -252,12 +254,14 @@
 								{{ form_errors(form.passportFile) }}
 
 							</div>
+							{% if candidate.passport %}
 							<div class="existing-file">
 								
 									<a href="{{ asset('images/passport/' ~ candidate.passport) }}" target="_blank">
 								<i class="material-icons">&#xE24D;</i>
 								{{ candidate.passport }}</a>
 							</div>
+							{% endif %}
 							<div class="file-path-wrapper">
 								<input class="file-path validate" type="text" placeholder="Upload your passport" readonly>
 							</div>
@@ -276,11 +280,13 @@
 
 							</div>
 
+							{% if candidate.cv %}
 							<div class="existing-file">
 								<a href="{{ asset('images/cv/' ~ candidate.cv) }}" target="_blank">
 								<i class="material-icons">&#xE24D;</i>
 								{{ candidate.cv }}</a>
 							</div>
+							{% endif %}
 							<div class="file-path-wrapper">
 								<input class="file-path validate" type="text" placeholder="Upload your Curriculum Vitae" readonly>
 							</div>
