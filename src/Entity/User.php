@@ -45,6 +45,11 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $resetToken = null;
 
+    public function __construct(bool $isVerified = true)
+    {
+        $this->isVerified = $isVerified;
+    }
+
 
 
     public function __toString()
